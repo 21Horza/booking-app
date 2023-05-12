@@ -1,5 +1,5 @@
 from app.infrastructure.database.database import async_seccion_maker
-from app.application.entities.bookings.model.bookings_model import Bookings
+from app.domain.entities.bookings.model.bookings_model import Bookings
 from sqlalchemy import select, insert
 
 class BaseService:

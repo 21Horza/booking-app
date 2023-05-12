@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 from datetime import date
-from app.application.entities.users.model.users_model import Users
+from app.domain.entities.users.model.users_model import Users
 from ..middlewares.users_middleware import get_current_user
 from ..services.bookings_service import BookingsService
 

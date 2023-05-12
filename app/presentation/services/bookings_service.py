@@ -1,4 +1,4 @@
-from app.application.entities.bookings.model.bookings_model import Bookings
+from app.domain.entities.bookings.model.bookings_model import Bookings
 from .base_service import BaseService
 
 class BookingsService(BaseService):

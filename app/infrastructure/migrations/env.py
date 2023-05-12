@@ -10,10 +10,10 @@ sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
 from app.infrastructure.database.config import settings
 from app.infrastructure.database.database import Base
-from app.application.entities.users.model.users_model import Users
-from app.application.entities.bookings.model.bookings_model import Bookings
-from app.application.entities.rooms.model.rooms_model import Rooms
-from app.application.entities.hotels.model.hotels_model import Hotels
+from app.domain.entities.users.model.users_model import Users
+from app.domain.entities.bookings.model.bookings_model import Bookings
+from app.domain.entities.rooms.model.rooms_model import Rooms
+from app.domain.entities.hotels.model.hotels_model import Hotels
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

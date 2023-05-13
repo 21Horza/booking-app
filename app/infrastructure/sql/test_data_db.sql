@@ -24,5 +24,5 @@ INSERT INTO users (email, hashed_password) VALUES
 ('test_2@gmail.com', 'hashed_pwd_2');
 
 INSERT INTO bookings (room_id, user_id, date_from, date_to, price) VALUES
-(1, 1, '2023-06-1', '2023-06-30', 24500),
-(7, 2, '2023-06-23', '2023-07-10', 4300);
+(1, 1, '2023-06-15', '2023-06-30', 24500),
+(7, 2, '2023-06-25', '2023-07-10', 4300);

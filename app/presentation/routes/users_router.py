@@ -4,7 +4,7 @@ from app.domain.exceptions.user_exceptions import UserAlreadyExistsExeption, Inc
 from app.infrastructure.identityProviders.password.auth import auth_user, create_access_token, get_pwd_hash, verify_pwd
 from app.domain.entities.users.schema.user_schema import SUserAuth
 from ..services.users_service import UsersService
-from ..middlewares.users_middleware import get_current_user, get_current_admin_user
+from ..middlewares.users_middleware import get_current_user
 
 
 router = APIRouter(

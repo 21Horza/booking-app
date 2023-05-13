@@ -2,7 +2,6 @@ from fastapi import FastAPI, Query, Depends
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
-
 from app.presentation.routes.bookings_router import router as bookings_router
 from app.presentation.routes.users_router import router as users_router
 

@@ -10,6 +10,7 @@ class SBooking(BaseModel):
     price: int
     total_cost: int
     total_days: int
+    
     # to read class with attributes
     class Config:
         orm_mode = True

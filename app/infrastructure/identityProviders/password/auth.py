@@ -23,6 +23,6 @@ def create_access_token(data: dict) -> str:
     return encoded_jwt
 
 async def auth_user(email: EmailStr, password: str):
-    candidate = await UsersService.find_one_or_none(email=email)
+    candidate = await UsersService.get_one_or_none(email=email)
     if candidate and verify_pwd(password, candidate.hashed_password):
         return candidate

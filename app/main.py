@@ -1,46 +1,18 @@
-from fastapi import FastAPI, Query, Depends
-from typing import Optional
-from datetime import date
-from pydantic import BaseModel
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from app.presentation.routes.bookings_router import router as bookings_router
 from app.presentation.routes.users_router import router as users_router
+from app.presentation.routes.hotels_router import router as hotels_router
+from app.presentation.routes.rooms_router import router as rooms_router
+from app.presentation.pages.pages_router import router as pages_router
 
 app = FastAPI()
 
+app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")
+
 app.include_router(users_router)
 app.include_router(bookings_router)
+app.include_router(hotels_router)
+app.include_router(rooms_router)
 
-class SHotel(BaseModel):
-    address: str
-    name: str
-    stars: int
-
-class HotelsSearchArgs:
-    def __init__(
-        self,
-        location: str,
-        date_from: date,
-        date_to: date,
-        has_spa: Optional[bool] = None,
-        stars: Optional[int] = Query(None, ge=1, le=5),
-    ):
-        self.location = location
-        self.date_from = date_from
-        self.date_to = date_to
-        self.has_spa = has_spa
-        self.stars = stars
-
-@app.get(f"/hotels")
-def get_hotels(
-    search_args: HotelsSearchArgs = Depends()
-) -> list[SHotel]:
-    hotels = [
-        {
-            "address": "Fifth Avenue, NY",
-            "name": "Grand Hotel",
-            "stars": 5,
-        }
-    ]
-    return search_args
-
-    pass
+app.include_router(pages_router)

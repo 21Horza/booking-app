@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
-from app.domain.entities.users.model.users_model import Users
+from app.domain.entities.users.model.user_model import Users
 from app.domain.exceptions.user_exceptions import UserAlreadyExistsExeption, IncorrectEmailOrPwdException
-from app.infrastructure.identityProviders.password.auth import auth_user, create_access_token, get_pwd_hash, verify_pwd
+from app.infrastructure.identityProviders.password.auth import auth_user, create_access_token, get_pwd_hash
 from app.domain.entities.users.schema.user_schema import SUserAuth
 from ..services.users_service import UsersService
 from ..middlewares.users_middleware import get_current_user
@@ -14,7 +14,7 @@ router = APIRouter(
 
 @router.post("/register")
 async def register_user(user_data: SUserAuth):
-    candidate = await UsersService.find_one_or_none(email=user_data.email)
+    candidate = await UsersService.get_one_or_none(email=user_data.email)
     if candidate:
         raise UserAlreadyExistsExeption
     hashed_pwd = get_pwd_hash(user_data.pwd)

@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from app.domain.entities.admin.admin_views import BookingsAdmin, UsersAdmin
 from app.presentation.routes.bookings_router import router as bookings_router
 from app.presentation.routes.users_router import router as users_router
 from app.presentation.routes.hotels_router import router as hotels_router
@@ -8,10 +9,10 @@ from app.presentation.routes.rooms_router import router as rooms_router
 from app.presentation.pages.pages_router import router as pages_router
 from app.presentation.images.images_router import router as images_router
 from app.infrastructure.database.config import settings
-
+from app.infrastructure.database.database import engine
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-
+from sqladmin import Admin
 from redis import asyncio as aioredis
 
 app = FastAPI()
@@ -57,3 +58,8 @@ app.add_middleware(
 def startup():
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+admin = Admin(app, engine)
+
+admin.add_view(UsersAdmin)
+admin.add_view(BookingsAdmin)

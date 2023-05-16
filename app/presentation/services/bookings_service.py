@@ -19,7 +19,7 @@ class BookingsService(BaseService):
     ):
 
         async with async_session_maker() as session:
-            booked_Room = select(Bookings).where(
+            booked_rooms = select(Bookings).where(
                 and_(
                     Bookings.room_id == 1,
                     or_(
@@ -33,22 +33,22 @@ class BookingsService(BaseService):
                         ),
                     )
                 )
-            ).cte("booked_Room")
+            ).cte("booked_rooms")
 
-            get_Room_left = select(
-                (Rooms.quantity - func.count(booked_Room.c.room_id)).label("Room_left")
+            get_rooms_left = select(
+                (Rooms.quantity - func.count(booked_rooms.c.room_id)).label("rooms_left")
                 ).select_from(Rooms).join(
-                    booked_Room, booked_Room.c.room_id == Rooms.id, isouter=True
+                    booked_rooms, booked_rooms.c.room_id == Rooms.id, isouter=True
                 ).where(Rooms.id == 1).group_by(
-                    Rooms.quantity, booked_Room.c.room_id
+                    Rooms.quantity, booked_rooms.c.room_id
                 )
             
-            print(get_Room_left.compile(engine, compile_kwargs={"literal_binds": True}))
+            print(get_rooms_left.compile(engine, compile_kwargs={"literal_binds": True}))
 
-            Room_left = await session.execute(get_Room_left)
-            Room_left: int = Room_left.scalar()
+            rooms_left = await session.execute(get_rooms_left)
+            rooms_left: int = rooms_left.scalar()
 
-            if Room_left > 0:
+            if rooms_left > 0:
                 get_price = select(Rooms.price).filter_by(id=room_id)
                 price = await session.execute(get_price)
                 price: int = price.scalar()
@@ -66,6 +66,6 @@ class BookingsService(BaseService):
 
                 new_booking = await session.execute(add_booking)
                 await session.commit()
-                return new_booking.scalars()
+                return new_booking.scalar()
             else: 
                 raise RoomCannotBeBooked

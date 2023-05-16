@@ -1,5 +1,8 @@
 from fastapi import APIRouter, Depends
 from datetime import date
+from pydantic import parse_obj_as
+from app.application.tasks.tasks import send_booking_confirmation
+from app.domain.entities.bookings.schema.booking_schema import SBooking
 from app.domain.entities.users.model.user_model import Users
 from ..middlewares.users_middleware import get_current_user
 from ..services.bookings_service import BookingsService
@@ -20,7 +23,10 @@ async def add_booking(
     date_to: date,
     user: Users = Depends(get_current_user)
 ):
-    return await BookingsService.add(user.id, room_id, date_from, date_to)
+    booking = await BookingsService.add(user.id, room_id, date_from, date_to)
+    booking_dict = parse_obj_as(SBooking, booking).dict()
+    send_booking_confirmation.delay(booking_dict, user.email)
+    return booking
 
 
 # delete booking info

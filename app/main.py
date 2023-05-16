@@ -8,6 +8,12 @@ from app.presentation.routes.rooms_router import router as rooms_router
 from app.presentation.pages.pages_router import router as pages_router
 from app.presentation.images.images_router import router as images_router
 
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
+from redis import asyncio as aioredis
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")
@@ -44,3 +50,8 @@ app.add_middleware(
         "Authorization"
     ],
 )
+
+@app.on_event("startup")
+def startup():
+    redis = aioredis.from_url("redis://localhost")
+    FastAPICache.init(RedisBackend(redis), prefix="cache")

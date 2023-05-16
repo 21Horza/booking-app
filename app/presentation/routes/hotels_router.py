@@ -1,10 +1,12 @@
+import asyncio
 from datetime import date, timedelta
 import datetime
-from typing import Optional
+from typing import List, Optional
 from fastapi import APIRouter, Query
-from app.domain.entities.hotels.schema.hotel_schema import SHotel 
+from app.domain.entities.hotels.schema.hotel_schema import SHotel, SHotelInfo 
 from app.domain.exceptions.hotel_exceptions import CannotBookHotelForLongPeriod, DateFromCannotBeAfterDateTo 
 from ..services.hotels_service import HotelsService 
+from fastapi_cache.decorator import cache
 
 router = APIRouter(
     prefix="/hotels",
@@ -13,12 +15,13 @@ router = APIRouter(
 
 # get all hotels by location
 # no auth required
-@router.get("/location")
+@router.get("/{location}")
+@cache(expire=40)
 async def get_hotels_by_location(
     location: str,
     date_from: date = Query(..., description=f"Ex., {datetime.datetime.now().date()}"),
     date_to: date = Query(..., description=f"Ex., {(datetime.datetime.now() + timedelta(days=14)).date()}"),
-):
+) -> List[SHotelInfo]:
     if date_from > date_to:
         raise DateFromCannotBeAfterDateTo
     if (date_to - date_from).days > 31:

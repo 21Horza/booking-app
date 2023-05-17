@@ -1,6 +1,6 @@
 from pydantic import EmailStr
 from .templates.email_templates import create_booking_confirmation_template
-from app.infrastructure.database.config import settings
+from app.domain.shared.config.config import settings
 from .celery import celery
 from PIL import Image
 from pathlib import Path

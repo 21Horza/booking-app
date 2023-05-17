@@ -8,7 +8,7 @@ from alembic import context
 
 sys.path.insert(0, dirname(dirname(dirname(abspath(__file__)))))
 
-from app.infrastructure.database.config import settings
+from app.domain.shared.config.config import settings
 from app.infrastructure.database.database import Base
 from app.domain.entities.users.model.user_model import Users
 from app.domain.entities.bookings.model.booking_model import Bookings

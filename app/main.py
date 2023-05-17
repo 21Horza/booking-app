@@ -8,7 +8,7 @@ from app.presentation.routes.hotels_router import router as hotels_router
 from app.presentation.routes.rooms_router import router as rooms_router
 from app.presentation.pages.pages_router import router as pages_router
 from app.presentation.images.images_router import router as images_router
-from app.infrastructure.database.config import settings
+from app.domain.shared.config.config import settings
 from app.infrastructure.database.database import engine
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend

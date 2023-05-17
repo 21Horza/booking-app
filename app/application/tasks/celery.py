@@ -1,5 +1,5 @@
 from celery import Celery
-from app.infrastructure.database.config import settings
+from app.domain.shared.config.config import settings
 
 celery = Celery(
     "tasks",

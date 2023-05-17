@@ -1,0 +1,106 @@
+[
+    {
+        "hotel_id": 1,
+        "name": "Superior with terrace and lake view",
+        "description": "Incredibly beautiful room.",
+        "price": 24500,
+        "services": ["Free Wi‑Fi", "Air conditioning (climate controlled)"],
+        "quantity": 5,
+        "image_id": 7
+    },
+    {
+        "hotel_id": 1,
+        "name": "Deluxe Plus",
+        "description": "Best hotel room.",
+        "price": 22450,
+        "services": ["Free Wi‑Fi", "Air conditioning"],
+        "quantity": 10,
+        "image_id": 8
+    },
+    {
+        "hotel_id": 2,
+        "name": "Room for 2 people",
+        "description": "Beauty indescribable.",
+        "price": 4570,
+        "services": [],
+        "quantity": 15,
+        "image_id": 9
+    },
+    {
+        "hotel_id": 2,
+        "name": "Room for 3 people",
+        "description": null,
+        "price": 4350,
+        "services": [],
+        "quantity": 8,
+        "image_id": 10
+    },
+    {
+        "hotel_id": 3,
+        "name": "Junior suite family room with 1 double bed",
+        "description": null,
+        "price": 7080,
+        "services": ["Refrigerator"],
+        "quantity": 20,
+        "image_id": 11
+    },
+    {
+        "hotel_id": 3,
+        "name": "2-room suite comfort",
+        "description": null,
+        "price": 9815,
+        "services": [],
+        "quantity": 10,
+        "image_id": 12
+    },
+    {
+        "hotel_id": 4,
+        "name": "Standard Double",
+        "description": null,
+        "price": 4300,
+        "services": ["Free Wi‑Fi", "Fridge"],
+        "quantity": 20,
+        "image_id": 13
+    },
+    {
+        "hotel_id": 4,
+        "name": "Standard Enhanced PLUS",
+        "description": null,
+        "price": 4700,
+        "services": [
+            "Free WiFi",
+            "Fridge",
+            "Bathroom",
+            "Air conditioner"
+        ],
+        "quantity": 35,
+        "image_id": 14
+    },
+    {
+        "hotel_id": 5,
+        "name": "Standard room with 2 single beds (breakfast included)",
+        "description": null,
+        "price": 5000,
+        "services": [],
+        "quantity": 15,
+        "image_id": 15
+    },
+    {
+        "hotel_id": 5,
+        "name": "Premium junior suite (breakfast included)",
+        "description": null,
+        "price": 8000,
+        "services": [],
+        "quantity": 7,
+        "image_id": 16
+    },
+    {
+        "hotel_id": 6,
+        "name": "Standard (type case)",
+        "description": null,
+        "price": 8125,
+        "services": [],
+        "quantity": 45,
+        "image_id": 17
+    }
+]

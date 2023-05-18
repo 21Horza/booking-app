@@ -9,7 +9,6 @@ from app.domain.entities.hotels.model.hotel_model import Hotels
 from app.domain.entities.users.model.user_model import Users
 from app.domain.entities.rooms.model.room_model import Rooms
 from app.domain.entities.bookings.model.booking_model import Bookings
-from fastapi.testclient import TestClient
 from httpx import AsyncClient
 from app.main import app as fastapi_app
 
@@ -58,20 +57,8 @@ def event_loop(request):
     yield loop
     loop.close()
 
-@pytest.fixture(scope="session")
-def event_loop(req):
-    """Create an instance of the default event loop for each test case."""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
-    yield loop
-    loop.close()
-
 @pytest.fixture(scope="function")
-# async client
+# async client to test endpoints
 async def ac():
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         yield ac
-
-@pytest.fixture(scope="function")
-async def session():
-    async with async_session_maker() as session:
-        yield session

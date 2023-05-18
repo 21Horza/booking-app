@@ -4,7 +4,7 @@
         "hashed_password": "$2b$12$ib8N/MddMjSxNs4UOF69c.KuO4CyglQHcNATYpHcKJJn5rbltYNFG"
     },
     {
-        "email": "user@test.com",
-        "hashed_password": "$2b$12$SwAOsDqK7tjnvIcjlTAUvuX6K4xv/zUvqp8Y2oSCtqVv4f/XCB2Bi"
+        "email": "user1@example.com",
+        "hashed_password": "$2b$12$7JlVdNItzU/SsWdHo4eoRuFflZiRC1QTXE95lolwL433Dm4jBtTP."
     }
 ]

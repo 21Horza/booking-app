@@ -17,4 +17,4 @@ class IncorrectTokenFormatException(ClientErrorException):
 
 class UserIsNotAuth(ClientErrorException):
     status_code=status.HTTP_401_UNAUTHORIZED,
-    detail="",
+    detail="User is not authorized",

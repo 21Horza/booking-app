@@ -1,10 +1,10 @@
-from fastapi import status
+from fastapi import HTTPException, status
 from .base_exceptions import ClientErrorException
 
-class UserAlreadyExistsExeption(ClientErrorException):
+UserAlreadyExistsExeption = HTTPException(
     status_code=status.HTTP_409_CONFLICT,
-    detail="User already exists",
-
+        detail="User already exists",
+)
 
 class IncorrectEmailOrPwdException(ClientErrorException):
     status_code=status.HTTP_401_UNAUTHORIZED,

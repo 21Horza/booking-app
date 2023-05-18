@@ -24,8 +24,8 @@ async def add_booking(
     user: Users = Depends(get_current_user)
 ):
     booking = await BookingsService.add(user.id, room_id, date_from, date_to)
-    booking_dict = parse_obj_as(SBooking, booking).dict()
-    send_booking_confirmation.delay(booking_dict, user.email)
+    # booking_dict = parse_obj_as(SBooking, booking).dict()
+    # send_booking_confirmation.delay(booking_dict, user.email)
     return booking
 
 

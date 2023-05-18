@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 from pydantic import BaseModel
 
 class SBooking(BaseModel):
@@ -14,3 +15,17 @@ class SBooking(BaseModel):
     # to read class with attributes
     class Config:
         orm_mode = True
+
+class SBookingDetails(SBooking):
+    image_id: int
+    name: str
+    description: Optional[str]
+    services: list[str]
+
+    class Config:
+        orm_mode = True
+
+class SNewBooking(BaseModel):
+    room_id: int
+    date_from: date
+    date_to: date

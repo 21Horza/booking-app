@@ -21,7 +21,7 @@ class BookingsService(BaseService):
         async with async_session_maker() as session:
             booked_rooms = select(Bookings).where(
                 and_(
-                    Bookings.room_id == 1,
+                    Bookings.room_id == room_id,
                     or_(
                         and_(
                             Bookings.date_from >= date_from,
@@ -29,7 +29,7 @@ class BookingsService(BaseService):
                         ),
                         and_(
                             Bookings.date_from <= date_from,
-                            Bookings.date_to < date_from
+                            Bookings.date_to > date_from,
                         ),
                     )
                 )
@@ -39,11 +39,11 @@ class BookingsService(BaseService):
                 (Rooms.quantity - func.count(booked_rooms.c.room_id)).label("rooms_left")
                 ).select_from(Rooms).join(
                     booked_rooms, booked_rooms.c.room_id == Rooms.id, isouter=True
-                ).where(Rooms.id == 1).group_by(
+                ).where(Rooms.id == room_id).group_by(
                     Rooms.quantity, booked_rooms.c.room_id
                 )
             
-            print(get_rooms_left.compile(engine, compile_kwargs={"literal_binds": True}))
+            # print(get_rooms_left.compile(engine, compile_kwargs={"literal_binds": True}))
 
             rooms_left = await session.execute(get_rooms_left)
             rooms_left: int = rooms_left.scalar()
@@ -61,11 +61,11 @@ class BookingsService(BaseService):
                         date_to = date_to,
                         price = price
                 )
-                .returning(Bookings)
+                .returning(Bookings.id, Bookings.user_id, Bookings.room_id)
                 )
 
                 new_booking = await session.execute(add_booking)
                 await session.commit()
-                return new_booking.scalar()
+                return new_booking.mappings().one()
             else: 
                 raise RoomCannotBeBooked

@@ -1,7 +1,9 @@
+from datetime import datetime, timedelta
+
+from jose import jwt
 from passlib.context import CryptContext
 from pydantic import EmailStr
-from jose import jwt
-from datetime import datetime, timedelta
+
 from app.domain.shared.config.config import settings
 from app.presentation.services.users_service import UsersService
 

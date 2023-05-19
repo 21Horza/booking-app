@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 
+
 class ClientErrorException(HTTPException):
     status_code = 400
     detail = ""

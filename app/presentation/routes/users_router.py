@@ -1,11 +1,19 @@
 from fastapi import APIRouter, Depends, Response
-from app.domain.entities.users.model.user_model import Users
-from app.domain.exceptions.user_exceptions import UserAlreadyExistsExeption, IncorrectEmailOrPwdException
-from app.infrastructure.identityProviders.password.auth import auth_user, create_access_token, get_pwd_hash
-from app.domain.entities.users.schema.user_schema import SUserAuth
-from ..services.users_service import UsersService
-from ..middlewares.users_middleware import get_current_user
 
+from app.domain.entities.users.model.user_model import Users
+from app.domain.entities.users.schema.user_schema import SUserAuth
+from app.domain.exceptions.user_exceptions import (
+    IncorrectEmailOrPwdException,
+    UserAlreadyExistsExeption,
+)
+from app.infrastructure.identityProviders.password.auth import (
+    auth_user,
+    create_access_token,
+    get_pwd_hash,
+)
+
+from ..middlewares.users_middleware import get_current_user
+from ..services.users_service import UsersService
 
 router = APIRouter(
     prefix="/auth",

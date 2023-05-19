@@ -1,6 +1,8 @@
-from sqlalchemy import Column, Integer, JSON, String
-from app.infrastructure.database.database import Base
+from sqlalchemy import JSON, Column, Integer, String
 from sqlalchemy.orm import relationship
+
+from app.infrastructure.database.database import Base
+
 
 class Hotels(Base):
     __tablename__ = "hotels"

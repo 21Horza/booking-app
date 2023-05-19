@@ -1,12 +1,18 @@
 import asyncio
-from datetime import date, timedelta
 import datetime
+from datetime import date, timedelta
 from typing import List, Optional
+
 from fastapi import APIRouter, Query
-from app.domain.entities.hotels.schema.hotel_schema import SHotel, SHotelInfo 
-from app.domain.exceptions.hotel_exceptions import CannotBookHotelForLongPeriod, DateFromCannotBeAfterDateTo 
-from ..services.hotels_service import HotelsService 
 from fastapi_cache.decorator import cache
+
+from app.domain.entities.hotels.schema.hotel_schema import SHotel, SHotelInfo
+from app.domain.exceptions.hotel_exceptions import (
+    CannotBookHotelForLongPeriod,
+    DateFromCannotBeAfterDateTo,
+)
+
+from ..services.hotels_service import HotelsService
 
 router = APIRouter(
     prefix="/hotels",

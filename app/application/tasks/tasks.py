@@ -1,10 +1,14 @@
-from pydantic import EmailStr
-from .templates.email_templates import create_booking_confirmation_template
-from app.domain.shared.config.config import settings
-from .celery import celery
-from PIL import Image
-from pathlib import Path
 import smtplib
+from pathlib import Path
+
+from PIL import Image
+from pydantic import EmailStr
+
+from app.domain.shared.config.config import settings
+
+from .celery import celery
+from .templates.email_templates import create_booking_confirmation_template
+
 
 @celery.task
 def process_img(

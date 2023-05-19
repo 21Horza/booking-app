@@ -1,8 +1,10 @@
 from sqladmin import ModelView
-from ...entities.rooms.model.room_model import Rooms
+
 from ...entities.bookings.model.booking_model import Bookings
 from ...entities.hotels.model.hotel_model import Hotels
+from ...entities.rooms.model.room_model import Rooms
 from ...entities.users.model.user_model import Users
+
 
 class UsersAdmin(ModelView, model=Users):
     column_list = [Users.id, Users.email]

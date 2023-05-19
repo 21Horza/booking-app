@@ -1,5 +1,7 @@
 from typing import List
+
 from pydantic import BaseModel
+
 
 class SHotel(BaseModel):
     id: int

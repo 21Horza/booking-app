@@ -1,5 +1,7 @@
-from app.presentation.services.users_service import UsersService
 import pytest
+
+from app.presentation.services.users_service import UsersService
+
 
 @pytest.mark.parametrize("id, email, is_present", [
     (1, "test@test.com", True),

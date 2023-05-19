@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.templating import Jinja2Templates
+
 from ..routes.hotels_router import get_hotels_by_location
 
 router = APIRouter(

@@ -1,5 +1,7 @@
-from app.presentation.services.bookings_service import BookingsService
 from datetime import datetime
+
+from app.presentation.services.bookings_service import BookingsService
+
 
 async def test_add_and_get_booking():
     new_booking = await BookingsService.add(

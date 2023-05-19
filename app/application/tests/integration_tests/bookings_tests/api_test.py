@@ -1,5 +1,6 @@
-from httpx import AsyncClient
 import pytest
+from httpx import AsyncClient
+
 
 @pytest.mark.parametrize("room_id, date_from, date_to, booked_rooms, status_code", [
     (4, "2026-06-01", "2026-06-20", 3,  200),

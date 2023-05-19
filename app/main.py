@@ -1,20 +1,26 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from app.domain.entities.admin.admin_views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
-from app.presentation.routes.bookings_router import router as bookings_router
-from app.presentation.routes.users_router import router as users_router
-from app.presentation.routes.hotels_router import router as hotels_router
-from app.presentation.routes.rooms_router import router as rooms_router
-from app.presentation.pages.pages_router import router as pages_router
-from app.presentation.images.images_router import router as images_router
-from app.domain.shared.config.config import settings
-from app.infrastructure.database.database import engine
+from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from sqladmin import Admin
 from redis import asyncio as aioredis
+from sqladmin import Admin
+
+from app.domain.entities.admin.admin_views import (
+    BookingsAdmin,
+    HotelsAdmin,
+    RoomsAdmin,
+    UsersAdmin,
+)
+from app.domain.shared.config.config import settings
+from app.infrastructure.database.database import engine
 from app.infrastructure.identityProviders.admin.auth_admin import authentication_backend
+from app.presentation.images.images_router import router as images_router
+from app.presentation.pages.pages_router import router as pages_router
+from app.presentation.routes.bookings_router import router as bookings_router
+from app.presentation.routes.hotels_router import router as hotels_router
+from app.presentation.routes.rooms_router import router as rooms_router
+from app.presentation.routes.users_router import router as users_router
 
 app = FastAPI()
 

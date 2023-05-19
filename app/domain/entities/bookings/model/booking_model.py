@@ -1,6 +1,8 @@
-from sqlalchemy import Column, Integer, ForeignKey, Date, Computed
-from app.infrastructure.database.database import Base
+from sqlalchemy import Column, Computed, Date, ForeignKey, Integer
 from sqlalchemy.orm import relationship
+
+from app.infrastructure.database.database import Base
+
 
 class Bookings(Base):
     __tablename__ = "bookings"

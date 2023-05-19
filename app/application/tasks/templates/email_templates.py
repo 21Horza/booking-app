@@ -1,6 +1,9 @@
 from email.message import EmailMessage
-from app.domain.shared.config.config import settings
+
 from pydantic import EmailStr
+
+from app.domain.shared.config.config import settings
+
 
 def create_booking_confirmation_template(
         booking: dict,

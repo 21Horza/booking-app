@@ -1,4 +1,5 @@
 from celery import Celery
+
 from app.domain.shared.config.config import settings
 
 celery = Celery(

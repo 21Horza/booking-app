@@ -1,16 +1,19 @@
+import asyncio
 import datetime
 import json
+
 import pytest
-import asyncio
-from sqlalchemy import insert
-from app.domain.shared.config.config import settings
-from app.infrastructure.database.database import Base, engine, async_session_maker
-from app.domain.entities.hotels.model.hotel_model import Hotels
-from app.domain.entities.users.model.user_model import Users
-from app.domain.entities.rooms.model.room_model import Rooms
-from app.domain.entities.bookings.model.booking_model import Bookings
 from httpx import AsyncClient
+from sqlalchemy import insert
+
+from app.domain.entities.bookings.model.booking_model import Bookings
+from app.domain.entities.hotels.model.hotel_model import Hotels
+from app.domain.entities.rooms.model.room_model import Rooms
+from app.domain.entities.users.model.user_model import Users
+from app.domain.shared.config.config import settings
+from app.infrastructure.database.database import Base, async_session_maker, engine
 from app.main import app as fastapi_app
+
 
 @pytest.fixture(scope="session", autouse=True)
 async def prepare_db():

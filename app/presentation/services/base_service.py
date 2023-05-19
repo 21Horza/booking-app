@@ -1,5 +1,7 @@
+from sqlalchemy import delete, insert, select
+
 from app.infrastructure.database.database import async_session_maker
-from sqlalchemy import select, insert, delete
+
 
 class BaseService:
     model = None

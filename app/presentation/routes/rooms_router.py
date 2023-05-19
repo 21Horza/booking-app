@@ -1,6 +1,8 @@
 from datetime import date
-from fastapi import APIRouter
 from typing import List
+
+from fastapi import APIRouter
+
 from app.domain.entities.rooms.schema.room_schema import SRoomDetails
 from app.presentation.services.rooms_service import RoomsService
 

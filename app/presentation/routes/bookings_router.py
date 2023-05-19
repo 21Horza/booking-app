@@ -1,9 +1,12 @@
-from fastapi import APIRouter, Depends
 from datetime import date
+
+from fastapi import APIRouter, Depends
 from pydantic import parse_obj_as
+
 from app.application.tasks.tasks import send_booking_confirmation
 from app.domain.entities.bookings.schema.booking_schema import SBooking
 from app.domain.entities.users.model.user_model import Users
+
 from ..middlewares.users_middleware import get_current_user
 from ..services.bookings_service import BookingsService
 

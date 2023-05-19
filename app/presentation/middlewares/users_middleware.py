@@ -1,10 +1,18 @@
-from fastapi import Depends, Request
-from jose import jwt, JWTError
 from datetime import datetime
+
+from fastapi import Depends, Request
+from jose import JWTError, jwt
+
 from app.domain.entities.users.model.user_model import Users
-from app.domain.exceptions.token_exceptions import TokenExpiredException, TokenIsAbsentException, IncorrectTokenFormatException, UserIsNotAuth
+from app.domain.exceptions.token_exceptions import (
+    IncorrectTokenFormatException,
+    TokenExpiredException,
+    TokenIsAbsentException,
+    UserIsNotAuth,
+)
 from app.domain.shared.config.config import settings
 from app.presentation.services.users_service import UsersService
+
 
 def get_token(request: Request):
     token = request.cookies.get("access_token")

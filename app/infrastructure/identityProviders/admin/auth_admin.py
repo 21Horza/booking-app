@@ -1,9 +1,13 @@
 from typing import Optional
+
 from sqladmin.authentication import AuthenticationBackend
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
+
 from app.presentation.middlewares.users_middleware import get_current_user
+
 from ..password.auth import auth_user, create_access_token
+
 
 class AdminAuth(AuthenticationBackend):
     async def login(self, request: Request) -> bool:

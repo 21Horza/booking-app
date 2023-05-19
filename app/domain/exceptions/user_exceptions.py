@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+
 from .base_exceptions import ClientErrorException
 
 UserAlreadyExistsExeption = HTTPException(

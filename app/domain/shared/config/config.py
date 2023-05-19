@@ -5,6 +5,7 @@ from pydantic import BaseSettings, root_validator
 
 class Settings(BaseSettings):
     MODE: Literal["DEV", "TEST", "PROD"]
+    LOG_LVL: Literal["INFO"]
 
     DB_NAME: str
     DB_PWD: str

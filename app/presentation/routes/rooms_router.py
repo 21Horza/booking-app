@@ -2,6 +2,7 @@ from datetime import date
 from typing import List
 
 from fastapi import APIRouter
+from fastapi_versioning import version
 
 from app.domain.entities.rooms.schema.room_schema import SRoomDetails
 from app.presentation.services.rooms_service import RoomsService
@@ -14,6 +15,7 @@ router = APIRouter(
 # get all hotels by location
 # no auth required
 @router.get("/{hotel_id}")
+@version(1)
 async def get_rooms_by_hotel_id(
     location: str,
     date_from: date,

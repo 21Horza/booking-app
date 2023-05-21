@@ -2,9 +2,10 @@ from datetime import date
 
 from fastapi import APIRouter, Depends
 from pydantic import parse_obj_as
+from fastapi_versioning import version
 
 from app.application.tasks.tasks import send_booking_confirmation
-from app.domain.entities.bookings.schema.booking_schema import SBooking
+from app.domain.entities.bookings.schema.booking_schema import SBooking, SBookingDetails, SNewBooking
 from app.domain.entities.users.model.user_model import Users
 
 from ..middlewares.users_middleware import get_current_user
@@ -16,25 +17,26 @@ router = APIRouter(
 )
 
 @router.get("")
-async def get_bookings(user: Users = Depends(get_current_user)):
+@version(1)
+async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBookingDetails]:
     return await BookingsService.get_all(user_id=user.id)
 
 @router.post("")
+@version(1)
 async def add_booking(
-    room_id: int,
-    date_from: date,
-    date_to: date,
+    booking: SNewBooking,
     user: Users = Depends(get_current_user)
 ):
-    booking = await BookingsService.add(user.id, room_id, date_from, date_to)
-    # booking_dict = parse_obj_as(SBooking, booking).dict()
-    # send_booking_confirmation.delay(booking_dict, user.email)
+    booking = await BookingsService.add(user.id, booking.room_id, booking.date_from, booking.date_to)
+    booking_dict = parse_obj_as(SBooking, booking).dict()
+    send_booking_confirmation.delay(booking_dict, user.email)
     return booking
 
 
 # delete booking info
 # auth required
 @router.delete("/{booking_id}")
+@version(1)
 async def delete_booking(
     booking_id: int,
     user: Users = Depends(get_current_user),

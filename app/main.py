@@ -6,6 +6,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from sqladmin import Admin
+from fastapi_versioning import VersionedFastAPI
 
 from app.domain.entities.admin.admin_views import (
     BookingsAdmin,
@@ -36,8 +37,6 @@ sentry_sdk.init(
 )
 
 app = FastAPI()
-
-app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")
 
 #server routers
 app.include_router(users_router)
@@ -76,8 +75,13 @@ app.add_middleware(
 
 @app.on_event("startup")
 def startup():
-    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
+    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}", encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
+
+app = VersionedFastAPI(app,
+    version_format='{major}',
+    prefix_format='/v{major}',
+)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
@@ -95,3 +99,5 @@ async def add_process_time_header(request: Request, call_next):
         "process_time": round(process_time, 4)
     })
     return response
+
+app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")

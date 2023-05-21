@@ -8,7 +8,6 @@ from app.domain.entities.rooms.model.room_model import Rooms
 from app.domain.exceptions.booking_exceptions import RoomCannotBeBooked
 from app.infrastructure.database.database import async_session_maker
 from app.logger import logger
-
 from .base_service import BaseService
 
 

@@ -15,7 +15,7 @@ from httpx import AsyncClient
     (4, "2026-06-01", "2026-06-20", 10, 409),
 ])
 async def test_add_and_get_booking(room_id, date_from, date_to, booked_rooms, status_code, auth_ac: AsyncClient):
-    response = await auth_ac.post("/bookings", params={
+    response = await auth_ac.post("v1/bookings", params={
         "room_id": room_id,
         "date_from": date_from,
         "date_to": date_to,
@@ -23,6 +23,7 @@ async def test_add_and_get_booking(room_id, date_from, date_to, booked_rooms, st
 
     assert response.status_code == status_code
 
-    response = await auth_ac.get("bookings")
+    response = await auth_ac.get("v1/bookings")
 
     assert len(response.json()) == booked_rooms
+

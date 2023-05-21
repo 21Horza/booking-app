@@ -11,6 +11,7 @@ from app.infrastructure.identityProviders.password.auth import (
     create_access_token,
     get_pwd_hash,
 )
+from fastapi_versioning import version
 
 from ..middlewares.users_middleware import get_current_user
 from ..services.users_service import UsersService
@@ -21,6 +22,7 @@ router = APIRouter(
 )
 
 @router.post("/register")
+@version(1)
 async def register_user(user_data: SUserAuth):
     candidate = await UsersService.get_one_or_none(email=user_data.email)
     if candidate:
@@ -29,6 +31,7 @@ async def register_user(user_data: SUserAuth):
     await UsersService.add(email=user_data.email, hashed_password=hashed_pwd)
 
 @router.post("/login")
+@version(1)
 async def login_user(response: Response, user_data: SUserAuth):
     candidate = await auth_user(user_data.email, user_data.pwd)
     if not candidate:
@@ -40,9 +43,11 @@ async def login_user(response: Response, user_data: SUserAuth):
     return {"access_token": access_token}
 
 @router.post("/logout")
+@version(1)
 async def logout_user(response: Response):
     response.delete_cookie("access_token")
 
 @router.get("/profile")
+@version(1)
 async def get_user_profile(current_user: Users = Depends(get_current_user)):
     return current_user

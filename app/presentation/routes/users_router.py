@@ -11,7 +11,6 @@ from app.infrastructure.identityProviders.password.auth import (
     create_access_token,
     get_pwd_hash,
 )
-from fastapi_versioning import version
 
 from ..middlewares.users_middleware import get_current_user
 from ..services.users_service import UsersService

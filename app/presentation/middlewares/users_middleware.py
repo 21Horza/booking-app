@@ -1,9 +1,6 @@
-from datetime import datetime
-
 from fastapi import Depends, Request
-from jose import JWTError, jwt
+from jose import ExpiredSignatureError,JWTError, jwt
 
-from app.domain.entities.users.model.user_model import Users
 from app.domain.exceptions.token_exceptions import (
     IncorrectTokenFormatException,
     TokenExpiredException,
@@ -26,21 +23,15 @@ async def get_current_user(token: str = Depends(get_token)):
             token, settings.SECRET_KEY, settings.ALGORITHM
         )
 
+    except ExpiredSignatureError:
+        raise TokenExpiredException
     except JWTError:
         raise IncorrectTokenFormatException
-    expire: str = payload.get("exp")
-    if (not expire) or (int(expire) < datetime.utcnow().timestamp()): 
-        raise TokenExpiredException
     user_id: str = payload.get("sub")
-    if not user_id: 
+    if not user_id:
         raise UserIsNotAuth
-    user = await UsersService.get_one_by_id(int(user_id))
-    if not user: 
+    user = await UsersService.get_one_or_none(id=int(user_id))
+    if not user:
         raise UserIsNotAuth
 
     return user
-
-async def get_current_admin_user(current_user: Users = Depends(get_current_user)):
-    # if current_user.role != "admin":
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
-    return current_user

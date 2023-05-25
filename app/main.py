@@ -6,7 +6,6 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from sqladmin import Admin
-from fastapi_versioning import VersionedFastAPI
 
 from app.domain.entities.admin.admin_views import (
     BookingsAdmin,
@@ -77,11 +76,6 @@ app.add_middleware(
 def startup():
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}", encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
-
-app = VersionedFastAPI(app,
-    version_format='{major}',
-    prefix_format='/v{major}',
-)
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 

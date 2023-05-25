@@ -74,7 +74,13 @@ class BookingsService(BaseService):
                         date_to=date_to,
                         price=price,
                     )
-                    .returning(Bookings.id, Bookings.user_id, Bookings.room_id)
+                    .returning(
+                            Bookings.id, 
+                            Bookings.user_id, 
+                            Bookings.room_id,
+                            Bookings.date_from,
+                            Bookings.date_to,
+                    )
                 )
 
                 new_booking = await session.execute(add_booking)
@@ -84,10 +90,9 @@ class BookingsService(BaseService):
                 raise RoomCannotBeBooked
         except (SQLAlchemyError, Exception) as err:
                 if isinstance(err, SQLAlchemyError):
-                    msg = "Database"
+                    msg = "Database exception: Cannot add booking"
                 elif isinstance(err, Exception):
-                    msg = "Unknown"
-                    msg += "exception: Cannot add booking"
+                    msg = "Unknown exception: Cannot add booking"
                     extra = {
                         "user_id": user_id,
                         "room_id": room_id,
@@ -99,3 +104,17 @@ class BookingsService(BaseService):
                     extra=extra, 
                     exc_info=True,
                 )
+    
+    @classmethod
+    async def get_all_with_pics(cls, user_id: int):
+        async with async_session_maker() as session:
+            query = (
+                select(
+                    Bookings.__table__.columns,
+                    Rooms.__table__.columns,
+                )
+                .join(Rooms, Rooms.id == Bookings.room_id, isouter=True)
+                .where(Bookings.user_id == user_id)
+            )
+            result = await session.execute(query)
+            return result.mappings().all()

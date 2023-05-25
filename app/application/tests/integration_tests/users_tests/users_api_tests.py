@@ -14,8 +14,6 @@ async def test_register_user(email, pwd, status_code, ac: AsyncClient):
         "pwd": pwd,
     })
 
-    print(response.json()) 
-
     assert response.status_code == status_code
 
 @pytest.mark.parametrize("email, pwd, status_code", [
@@ -23,7 +21,7 @@ async def test_register_user(email, pwd, status_code, ac: AsyncClient):
     ("user1@example.com", "user1", 200),
 ])
 async def test_login_user(email, pwd, status_code, ac: AsyncClient):
-    response = await ac.post("auth/login", json={
+    response = await ac.post("/auth/login", json={
         "email": email,
         "pwd": pwd
     })

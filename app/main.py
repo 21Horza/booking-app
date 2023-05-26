@@ -6,6 +6,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from redis import asyncio as aioredis
 from sqladmin import Admin
+from prometheus_fastapi_instrumentator import Instrumentator
 
 from app.domain.entities.admin.admin_views import (
     BookingsAdmin,
@@ -22,6 +23,7 @@ from app.presentation.routes.bookings_router import router as bookings_router
 from app.presentation.routes.hotels_router import router as hotels_router
 from app.presentation.routes.rooms_router import router as rooms_router
 from app.presentation.routes.users_router import router as users_router
+from app.presentation.routes.prometheus_router import router as prometheus_router
 from app.logger import logger
 import sentry_sdk
 
@@ -44,6 +46,7 @@ app.include_router(hotels_router)
 app.include_router(rooms_router)
 
 # client routers
+app.include_router(prometheus_router)
 app.include_router(pages_router)
 app.include_router(images_router)
 
@@ -77,12 +80,20 @@ def startup():
     redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}", encoding="utf8", decode_responses=True)
     FastAPICache.init(RedisBackend(redis), prefix="cache")
 
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.*", "/metrics"],
+)
+instrumentator.instrument(app).expose(app)
+
 admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
+
+app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -93,5 +104,3 @@ async def add_process_time_header(request: Request, call_next):
         "process_time": round(process_time, 4)
     })
     return response
-
-app.mount("/static", StaticFiles(directory="app/presentation/static"), "static")
